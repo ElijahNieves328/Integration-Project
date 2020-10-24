@@ -1,0 +1,17 @@
+#########################SLIME GAME OVER#############################
+You have tried your hardest to repel the slime, but it does not yield.
+Piece by piece, your armor corrodes. The acid begins to seep through and melt your flesh.
+As you fall to one knee, the slime envelops towards you, absorbing you in its mass.
+#########################ENT GAME OVER###############################
+You try to cut down each branch that swings toward you, but more keep on coming.
+Eventually, you are overcome, swatted down by the branches.
+As you fall to the earth, roots sprout out around you, encasing you, and dragging you into the earth to become fertilizer for the trees.
+#######################LICH GAME OVER###############################
+You cut down undead after undead, but more keep on coming.
+You cannot keep up, despite the powerful magical artifacts you hold.
+As you try to fight back the horde, you feel a terrible magic grip hold of your body.
+"Ah... how easily you are distracted... It appears this is the end, my brave knight."
+"Your body can no longer keep up with my army. But fret not, for this outcome was predetermined."
+"You were destined to serve me. I only thank you for working so hard to become such a powerful soldier of my army"
+You feel your flesh begin to rot. You try to scream, but your vocal cords are completely decomposed.
+As your flesh sloughs off, you begin to lose what little is left of your mind.
