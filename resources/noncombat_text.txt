@@ -1,0 +1,105 @@
+###############################INTRO#########################################
+Hello and welcome to this thrilling text adventure.
+You are a traveling knight who has come across a dark and ancient forest.
+You have heard about the many dangers this forest holds, but you must keep moving forward, and the only way forward is through.
+Besides, your steel is sturdy and your sword arm is strong. What could possibly happen that you could not handle?
+##############################MECHANICS####################################
+Lets take a look at the stats that will be relevant to you during this adventure.
+HP:
+As a sturdily built knight, you have {} Health Points.
+Should this number ever reach 0, you will perish, forgotten to the forest forever.
+MP:
+While your primary means of combat is your steel, you are also capable of minor magic. You have {} total Magic Points.
+You may use MP to cast minor spells, but the only one you know right now is Flame.
+Flame does {} , but can also set things ablaze in the right circumstances.
+If MP reaches 0, you can no longer cast spells until you regain MP. You regain full MP after each successful combat
+Armor:
+You have also been equipped by the kingdom's armory.
+You wear full steel plate, which reduces incoming damage you will take by {}.
+You also wield a devastating Greatsword, which does {} on hit.
+##########################EVENT 1: SLIME#####################################
+You have been traveling through the forest for some time now.
+It's gnarled wood and sounds of creatures lurking in the dark are unsettling to say the least.
+Hand gripping the hilt of your sword, you press onward, deeper into the forest, and deeper towards the sound of death.
+Eventually, you come across a morbid scene.
+You see a pile of gelatinous sludge, with a skeleton floating about inside. The armor the skeleton bears is one that matches your order.
+The slime begins to lurch towards you!
+You have successfully defeated the slime!
+As its gelatinous form slowly begins to decompose, you notice a faint magic resonating from the skeleton it was eating.
+The deceased knight's shield lays immaculate whereas the rest of the knight has been heavily decomposed.
+The shield must have been enchanted with some form of protective magic.
+You have obtained the Shield of Retribution. You may now choose to Block in combat.
+If you do, rather than your Armor subtracting an amount of damage you are about to take, it will divide the damage by your Armor value.
+It will also reflect an amount of damage equal to the remainder back at the enemy!
+##############################EVENT 2: FOUNTAIN###############################
+After fighting with the slime, you press onwards through the forest.
+Eventually you come across a small bright outcropping, untouched by the dark and twisted nature of the forest.
+Before you is a great fountain, with countless fairies flitting about around it.
+From it, gushes forth a magical blue liquid. Being in its presence soothes your soul, despite your wounds.
+What do you do?
+"Drink" from the fountain  "Bathe" in the fountain   "Leave" the fountain alone
+You cup your hands into the magical fountain's essence and drink.
+Your body feels rejuvenated. You heal completely. Your HP is now {}.
+The fairies are annoyed that you drank from their sacred fountain.
+They decide to teach you a healing spell so that you may never come back to abuse their sacred waters.
+You learn the Heal spell! When used, it will heal you for 10-12 HP for the cost 6 MP.
+You clamber into the fountain with a large splash.
+The fairies are furious with your disrespect and you feel pinches all over your body as they attack you.
+Despite the fairy assault, you soak up the magical essence of the fountain.
+Not only are you completely healed, but you also feel stronger than ever before. Your maximum HP has been tripled. Your HP is now {}.
+The fairies thank you for respecting their holy fountain. They heal you and promise to give you aid when you need it most.
+They also imbue you with their magic, giving you greater understanding of the arcane. Your maximum MP is now {}.
+Your "Flame" has now become "Faerie Fire."
+When used, not only will it do much more damage, but it will also set the target ablaze with an inextinguishable blue fire. This effect stacks.
+###################################EVENT 3: ENT###############################
+You push through the forest but cannot help but feel that the environment around you is changing.
+As you walk through the gnarled underbrush, you could've sworn you saw something move out of the corner of your eye.
+Right when you dismiss it as just a shadow, you step forward onto a tree root and the whole tree beneath begins to shift and bend.
+You have encountered an Ent! It looks like it is about to attack.
+The Ent cries out as it burns into cinders. The ashen roots and branches around you fall limp.
+The Ent is consumed in blue flame. Once the pyre of blue light recedes, all that is left is a glowing ash.
+The Ent struggles to move, but the majority of its wood has been chopped free of its body.
+It twists, cracks, and then splinters into thousands of wood chips. The wood around you moves no more.
+You have successfully defeated the Ent!
+###########################EVENT 4: SWORD OR HELM###########################
+As the wood of the forest recedes back into the shadows, you see a glimmer of light.
+You see two objects made of magical metal, hidden beneath the underbrush.
+Perhaps they were protecting this?
+The first is a helm made of gold, with a large blue gem embedded into the forehead.
+The second is a bright white sword, glowing with life energy. It is stuck within a large, rune-covered stone.
+Which item do you want to take with you?
+As you place the helm over your head, the blue gem begins to glow.
+Your entire body is cloaked in a blue energy.
+The energy begins to shape itself into an extra layer of translucent armor.
+Your armor value has now increased to {}.
+Additionally, if you block, all the energy focuses onto the shield.
+Your shield now divides all damage by your armor value multiplied by itself.
+As you approach the sword, you can feel the immense power it gives off.
+With a quick look at it, and you can tell it would be no easy feat to pull this sword free.
+You grab hold of the swords pommel and pull with all your might.
+As you pull, you sense that this is not a test of physical strength, but a test of strength of the soul.
+If you were to retrieve this sword, it would drain you of all your Magic.
+Do you wish to continue?
+You continue to pull, putting every ounce of energy and willpower you have into pulling it free, and eventually, the blade slides free of the stone.
+It shines brilliantly in the moonlight, immaculate despite the unknown amount of years it has been kept here.
+You now have the Sword of Exponential Power. The "Attack" action has become "Smite."
+For any amount of damage you make with this sword, it will be multiplied by that same amount.
+##########################EVENT 5: LICH#####################################
+As you journey deeper through the forest, nearing the center, you begin to feel the most unsettling feeling you've felt in your entire lifetime.
+A stench of death overcomes you and an arcane darkness fills the air. You feel as if this is the most incorrigible evil you have faced yet.
+Surely, whatever is creating this aura of death must be the source of the forest's unforgiving nature.
+You push further into the wood, steeling yourself against the vileness in the air, and then you see him.
+A man, about 7 feet tall, with skin sloughing off of his body. His bone is exposed, but it appears to have merged with wood and fungus.
+He turns to you, with hollowed eye sockets, and smiles the most abhorrent smile a creature could make.
+"Ah... I see...," the Lich says. "It seems that another has wandered into my forest."
+"Do not worry, brave knight. For I will accept you into my family as well..."
+He then raises his arms and you see several bloated corpses of all kinds raise from the earth.
+Knights, rogues, merchants, farmers... the Lich's evil seems to have touched all. You prepare for battle. The time for mercy has passed.
+You finally manage to slice the Lich's head free from his body. As his head rolls across the dirt, all the bloated undead fall as well.
+However, you can still hear a voice coming from the Lich's mouth
+"Ah... what a powerful knight indeed... but not strong enough."
+"You may think you have won over me, but none can truly defeat me! No matter how long it takes, I will always return!"
+"You are strong, brave one... but I am beyond strength. I am The End. And I will come for you once I return..."
+The flesh falls off the Lich's head and dissipates into shadow.
+All around you, the forest begins to brighten and life begins to return to the noxious bogs.
+You seem to have saved the forest from its accursed nature... or have you?
