@@ -1,51 +1,51 @@
-# Elijah Nieves
-# Text Adventure
-# This project is a text based adventure where you are a knight travelling
-# through a dangerous forest.
-# You must fight your way through the forest, gaining strength and items
-# throughout the process.
+"""Text Adventure
+This project is a text based adventure where you are a knight travelling
+through a dangerous forest.
+You must fight your way through the forest, gaining strength and items
+throughout the process."""
+__author__ = "Elijah Nieves"
 
 import random
 
 import sys
 
 
-###Creating all the simple, convenient functions
+# Creating all the simple, convenient functions
 
 def prompt_to_proceed():
+    """This is a simple function that just prompts the user to proceed. It
+    is used before printing the next line of text. It's in a function
+    because its annoying to retype"""
     input(">Press Enter to proceed<")
-    # this is on a function because this will be used very often to introduce
-    # smaller bits of information at a time. its annoying to retype.
-
-
-def get_sword_damage():
-    return random.randint(8, 12)
-
-
-def get_flame_damage():
-    return random.randint(5, 8)
-
-
-####Found on https://thispointer.com/python-how-to-convert-a-list-to-string/
-###we are using this function to print the valid_actions_string list
-def convert_list_to_string(list_variable, separator):
-    ###Convert list to string, by joining all items in list with given
-    # separator. Returns the concatenated string
-    return separator.join(list_variable)
 
 
 def print_file_text(file, start_line, end_line):
+    """This function looks for the file, and prints the amount of lines
+    specified by the user."""
     for line in range(start_line, end_line):
         print(file.readline().rstrip())
 
 
 def seek_line(file, line_number):
+    """This function will bring the reader to the beginning of the line
+    that was specified."""
     file.seek(0)
     for line in range(line_number):
         file.readline()
 
 
+def convert_list_to_string(list_variable, separator):
+    """Converts lists to string, by joining all items in list with given
+    separator. Returns the concatenated string. Found on
+    https://thispointer.com/python-how-to-convert-a-list-to-string/. We are
+    using this function to print the valid_actions_string list."""
+    return separator.join(list_variable)
+
+
+# Combat String Functions
+
 def print_combat_string(actor, action, target):
+    """This function prints all the strings that will be needed in combat."""
     combat_strings = open('resources/combat_text.txt', 'r')
     if actor == "player":
         if action == "attack" or action == "smite":
@@ -153,37 +153,94 @@ def print_combat_string(actor, action, target):
     combat_strings.seek(0)  # returns back to the top of the txt file
 
 
-### Also initializing functions and variables player does not have yet.
-###This is so we can use one singular combat results function while redefining
-### the combat options list as the player gets more options.
+def print_damage_dealt(damage_value):
+    """Prints the damage value the player deals"""
+    print("You do {} damage!".format(damage_value))
+
+
+def print_damage_taken(damage_value):
+    """Prints the damage value the player takes"""
+    print("You take {} damage!".format(damage_value))
+
+
+# Get Combat Value Functions
+def get_axe_damage():
+    """Generates a random number for damage"""
+    return random.randint(8, 12)
+
+
+def get_flame_damage():
+    """Generates a random number for damage"""
+    return random.randint(5, 8)
+
 
 def get_ffire_damage():
+    """Generates a random number for damage"""
     return random.randint(10, 14)
 
 
 def get_heal_amount():
+    """Generates a random number for healing"""
     return random.randint(10, 12)
 
 
 def get_block(enemy_damage_value, enemy, armor_value):
+    """Calculates how much damage the shield reflects back compared to how
+    much damage it blocked. Also prints the appropriate messages."""
     damage_value = enemy_damage_value % armor_value
     if damage_value < 1:
         damage_value = 1
-        ####it will always do some damage. no "enemy takes 0 damage"
-    #####else: proceed as normal
+        # it will always do some damage. no "enemy takes 0 damage"
+    # else: proceed as normal
     print("You block the attack, taking minimal damage!")
     print("Energy is reflected back towards the {}!".format(enemy))
     print("The {} takes {} damage!".format(enemy, damage_value))
     return damage_value
 
 
-###### Now creating base combat functions needed throughout the program
+def damage_over_time(dot_fire, dot_ffire, enemy):
+    """Calculates how much damage to inflict due to Damage over time effects.
+    Also prints the appropriate messages."""
+    damage_value = 0
+    if dot_fire == 1:
+        damage_value = 3
+        print("The {} burns! They take {} damage!".format(enemy, damage_value))
+    elif dot_ffire > 0:
+        damage_value += (dot_ffire * 3)
+        print("The {} burns! They take {} damage from Faerie Fire!".format(
+            enemy, damage_value))
+    ###else: damage value remains 0.
+    return damage_value
+
+
+def get_spell_cost(action):
+    """Retrieves the MP cost of a spell. Its easier to put it all in a
+    function."""
+    flame_cost = 3
+    ffire_cost = 6
+    heal_cost = 6
+    if action == "flame":
+        return flame_cost
+    elif action == "faerie fire":
+        return ffire_cost
+    elif action == "heal":
+        return heal_cost
+    else:  # if action is not a spell, no mp is drained
+        return 0
+
+
+def get_enemy_damage(num1, num2):
+    """Calculates a random number between the two specified values."""
+    return random.randint(num1, num2)
+
+
+# Combat system functions (structure of the combat)
 def check_valid_actions(action, actions_string, valid_actions, mp):
-    # makes sure a valid action is sent to the combat results function.
-    # valid_actions is being used as a parameter because it will be updated
-    # and changed multiple times throughout the main() function
-    # actions_string is a parameter here so we can pass that variable to
-    # ask_combat_actions() if needed
+    """Makes sure a valid action is sent to the combat results function.
+    valid_actions is being used as a parameter because it will be updated
+    and changed multiple times throughout the main() function
+    actions_string is a parameter here so we can pass that variable to
+    ask_combat_actions() if needed"""
     if action not in valid_actions:
         print("Please select a valid action.")
         return ask_combat_actions(actions_string, valid_actions, mp)
@@ -195,10 +252,10 @@ def check_valid_actions(action, actions_string, valid_actions, mp):
 
 
 def ask_combat_actions(actions_string, valid_actions, mp):
-    # actions_string is being used as a parameter because it will be updated
-    # and changed multiple times throughout the main() function
-    # valid actions is a parameter here so we can pass that variable to
-    # check_valid_actions()
+    """actions_string is being used as a parameter because it will be updated
+    and changed multiple times throughout the main() function.
+    valid_actions is a parameter here so we can pass that variable to
+    check_valid_actions()"""
     print("What do you do?\n" + convert_list_to_string(actions_string, "\t"))
     action = input().lower()
     # learned that .lower makes things easier to read from w3schools
@@ -207,6 +264,7 @@ def ask_combat_actions(actions_string, valid_actions, mp):
 
 
 def choose_target(action):
+    """Used to decide which enemy to attack when there are multiple."""
     if action == "block" or action == "heal":
         return "Lich"
         #######it doesnt matter what we return if it is non-damaging
@@ -223,19 +281,13 @@ def choose_target(action):
             return enemy
 
 
-def print_damage_dealt(damage_value):
-    print("You do {} damage!".format(damage_value))
-
-
-def print_damage_taken(damage_value):
-    print("You take {} damage!".format(damage_value))
-
-
 def do_player_turn(action, enemy):
+    """Returns how much damage the player deals depending on the action and
+    passes the information to the print_combat_string() function.."""
     print_combat_string("player", action, enemy)
     if enemy == "Slime":
         if action == "attack":
-            damage_value = round(get_sword_damage() / 2)
+            damage_value = round(get_axe_damage() / 2)
             print_damage_dealt(damage_value)
             return damage_value
         elif action == "flame":
@@ -246,7 +298,7 @@ def do_player_turn(action, enemy):
             print("Player turn action ERROR. Invalid action")
     else:
         if action == "attack":
-            damage_value = get_sword_damage()
+            damage_value = get_axe_damage()
             print_damage_dealt(damage_value)
             return damage_value
         elif action == "flame":
@@ -262,32 +314,16 @@ def do_player_turn(action, enemy):
         elif action == "heal":
             return "heal"
         elif action == "smite":
-            damage_value = get_sword_damage() ** 2
+            damage_value = get_axe_damage() ** 2
             print_damage_dealt(damage_value)
             return damage_value
         else:
             print("Player turn action ERROR. Invalid action")
 
 
-def get_spell_cost(action):
-    flame_cost = 3
-    ffire_cost = 6
-    heal_cost = 6
-    if action == "flame":
-        return flame_cost
-    elif action == "faerie fire":
-        return ffire_cost
-    elif action == "heal":
-        return heal_cost
-    else:  # if action is not a spell, no mp is drained
-        return 0
-
-
-def get_enemy_damage(num1, num2):
-    return random.randint(num1, num2)
-
-
 def do_enemy_turn(action, enemy, armor_value, cycle):
+    """Returns the damage that the enemy does and passes the information to
+    the print_combat_string() function."""
     if enemy == "Slime":
         print_combat_string("Slime", "attack", "player")
         damage_value = (get_enemy_damage(5, 8) - armor_value)
@@ -355,21 +391,9 @@ def do_enemy_turn(action, enemy, armor_value, cycle):
         print("INVALID ENEMY")
 
 
-def damage_over_time(dot_fire, dot_ffire, enemy):
-    damage_value = 0
-    if dot_fire == 1:
-        damage_value = 3
-        print("The {} burns! They take {} damage!".format(enemy, damage_value))
-    elif dot_ffire > 0:
-        damage_value += (dot_ffire * 3)
-        print("The {} burns! They take {} damage from Faerie Fire!".format(
-            enemy, damage_value))
-    ###else: damage value remains 0.
-    return damage_value
-
-
-######## Game over sequence ##########
+# Game Over Sequence
 def game_over(enemy):
+    """Prints the proper game over message and ends the program."""
     game_over_strings = open('resources/game_overs.txt', 'r')
     if enemy == "Slime":
         seek_line(game_over_strings, 1)
@@ -385,50 +409,60 @@ def game_over(enemy):
     sys.exit("GAME OVER")
 
 
-###############################MAIN CODE######################################
 def main():
-    #####initializing variables########
+    """The main function. What more is there to say? Its the meat and
+    potatoes."""
+    # Initializing Variables
     maxhp = 24
-    hp = 24  # health. if it reaches 0, game over
+    hp = 24
+    # Health. If it reaches 0, game over.
 
     maxmp = 12
-    mp = 12  # magic points. used to cast magic
+    mp = 12
+    # Magic points. Used to cast magic.
 
-    armor_value = 3  # armor reduces incoming damage by said amount
+    armor_value = 3
+    # Armor reduces incoming damage by said amount.
 
     sword_string = "(8-12 slashing damage)"
     flame_string = "(5-8 fire damage, 3 MP)"
     ffire_string = "(10-14 fire damage, 6 MP)"
     heal_string = "(10-12 HP, 6 MP)"
 
-    ######the lists below will be updated when the player learns new actions
-
+    # These lists below will be updated when the player learns new actions.
     actions_string = ["Attack" + sword_string, "Flame" + flame_string]
-    # the concatenated strings tell the player what the actions does
+    # The concatenated strings tell the player what the actions does in
+    # parentheses
     valid_actions = ["attack", "flame"]
 
+    # Introducing the user to the game.
     main_text = open('resources/noncombat_text.txt', 'r')
-    ############INTRO#############
-    main_text.readline()
-    for line in range(4):
-        print(main_text.readline().rstrip())
+    seek_line(main_text, 2)
+    # We skip one line because, within the text files, there are lines that
+    # function as labels that the player will never see. It is strictly for
+    # the developer's convenience. The seek_line() function will often be
+    # used to skip those labels and ensure the player never sees them.
+    print_file_text(main_text, 2, 5)
     prompt_to_proceed()
     answer = input(
         "Would you like an explanation of the stats and mechanics? ").lower()
     if answer == "yes":
-        main_text.readline()
+        seek_line(main_text, 6)
+        # Explaining HP
         print_file_text(main_text, 7, 9)
         print(main_text.readline().rstrip().format(maxhp))
-        # to format the variables in, I have to break out of the print file
+        # To format the variables in, I have to break out of the print file
         # function
         print_file_text(main_text, 10, 11)
         prompt_to_proceed()
+        # Explaining MP and Spells
         print_file_text(main_text, 11, 12)
         print(main_text.readline().rstrip().format(maxmp))
         print_file_text(main_text, 13, 14)
         print(main_text.readline().rstrip().format(flame_string))
         print_file_text(main_text, 15, 16)
         prompt_to_proceed()
+        # Explaining Armor and Attacks
         print_file_text(main_text, 16, 18)
         print(main_text.readline().rstrip().format(armor_value))
         print(main_text.readline().rstrip().format(sword_string))
@@ -436,11 +470,14 @@ def main():
         print("HP: {} \nMP: {} \nArmor: {}".format(hp, mp, armor_value))
     prompt_to_proceed()
 
-    ########################COMBAT 1##################################
+    # Introduction to the forest
     seek_line(main_text, 20)
     print_file_text(main_text, 21, 24)
     prompt_to_proceed()
+
+    # Beginning the Slime Fight
     print_file_text(main_text, 24, 27)
+    prompt_to_proceed()
 
     slime_hp = 34
     enemy = "Slime"
@@ -452,34 +489,40 @@ def main():
         slime_hp -= damage_value
         print("The Slime now has {} HP".format(slime_hp))
         prompt_to_proceed()
-        if slime_hp > 0:  # slime can't act after it is dead
+
+        if slime_hp > 0:  # Slime can't act after it is dead
             hp -= do_enemy_turn(action, enemy, armor_value, 0)
             prompt_to_proceed()
-        ###else, proceed to top of while loop to end combat
+        # else: proceed to top of while loop to end combat
         if hp <= 0:
             game_over(enemy)
-        ###else, proceed to top of while loop to continue combat
-    mp = maxmp
+        # else: proceed to top of while loop to continue combat
+
+    mp = maxmp  # Restore MP after every fight.
+    # Victory message
     seek_line(main_text, 26)
     print_file_text(main_text, 27, 31)
     prompt_to_proceed()
+    # Player receives a shield and learns a new action.
     print_file_text(main_text, 31, 34)
     actions_string.append("Block")
     valid_actions.append("block")
     prompt_to_proceed()
 
-    #####################FAIRY FOUNTAIN##################################
+    # Beginning "Fairy Fountain" event.
     seek_line(main_text, 34)
     print_file_text(main_text, 35, 41)
-    fairy_event = 0
-    ####variable that dictates end of the event
+    fairy_event = 0  # variable that dictates end of the event
     fairy_hate = 0
     fairy_help = 0
-    ####these two variables will affect the story later on if their value is 1.
+    # These two above variables will affect the story later on if their value
+    # is 1.
     action = 0
     while fairy_event != 1:
         action = input().lower()
         if action == "drink":
+            # In this event, the player drinks from the fountain, heals,
+            # and the fairies teach them the Heal spell
             hp = maxhp
             print_file_text(main_text, 41, 42)
             print(main_text.readline().rstrip().format(hp))
@@ -488,6 +531,8 @@ def main():
             valid_actions.append("heal")
             fairy_event = 1
         elif action == "bathe":
+            # In this event, the player jumps in the fountain, gets double
+            # health, but the fairies hate them
             fairy_hate = 1
             maxhp *= 3
             hp = maxhp
@@ -496,6 +541,8 @@ def main():
             print(main_text.readline().rstrip().format(maxhp))
             fairy_event = 1
         elif action == "leave":
+            # In this event, the fairies thank the player for respecting the
+            # fountain, heals them, and teaches them the Faerie Fire spell.
             fairy_help = 1
             maxmp *= 2
             mp = maxmp
@@ -520,7 +567,7 @@ def main():
         print(", with and error message")
     prompt_to_proceed()
 
-    ###########################ENT FIGHT#################################
+    # Beginning the Ent Fight
     seek_line(main_text, 54)
     print_file_text(main_text, 55, 57)
     prompt_to_proceed()
@@ -536,6 +583,7 @@ def main():
         action = ask_combat_actions(actions_string, valid_actions, mp)
         damage_value = do_player_turn(action, enemy)
         mp -= get_spell_cost(action)
+
         if damage_value == "heal":
             health_gained = get_heal_amount()
             if (health_gained + hp) > maxhp:
@@ -546,21 +594,23 @@ def main():
                 print("You regain {} HP.".format(health_gained))
                 hp += health_gained
             damage_value = 0
-        # else continue as normal
+        # else: continue as normal
+
         if action == "flame" or action == "faerie fire":
             if dot_fire == 0 and dot_ffire == 0:
                 print("The Ent bursts into flames!")
-            # else do not print statement
-        # else continue as normal
+            # else: do not print statement
+        # else: continue as normal
         if action == "flame" and dot_fire == 0:
             dot_fire = 1
         elif action == "faerie fire":
             dot_ffire += 1
-        # else no damage over time accumulates
+        # else: no damage over time accumulates
         damage_value += damage_over_time(dot_fire, dot_ffire, enemy)
         ent_hp -= damage_value
         print("The Ent now has {} HP".format(ent_hp))
         prompt_to_proceed()
+
         if ent_hp > 0:
             if cycle == 0:
                 cycle = 1
@@ -574,11 +624,13 @@ def main():
                 cycle = 0
                 do_enemy_turn(action, enemy, armor_value, cycle)
             prompt_to_proceed()
-        ###else, proceed to top of while loop to end combat
+        # else: proceed to top of while loop to end combat
+
         if hp <= 0:
             game_over(enemy)
-        ###else, proceed to top of while loop to continue combat
-    ######print victory and proceed to next event
+        # else: proceed to top of while loop to continue combat
+    # Print victory and proceed to next event. Depending on the Ent's state
+    # (on fire or not) there will be a different victory message.
     if dot_fire > 0:
         seek_line(main_text, 58)
         print_file_text(main_text, 59, 60)
@@ -593,7 +645,7 @@ def main():
     print_file_text(main_text, 63, 64)
     prompt_to_proceed()
 
-    #########################SWORD OR HELM###############################
+    # Beginning the event where the player gets a magic sword or helm
     sword_event = 0
     seek_line(main_text, 64)
     print_file_text(main_text, 65, 68)
@@ -606,7 +658,7 @@ def main():
             print_file_text(main_text, 71, 74)
             prompt_to_proceed()
             armor_value = 6
-            ####the additional effect of the helm is already handled in
+            # The additional effect of the helm is already handled in
             # the enemy turn function
             print(main_text.readline().rstrip().format(armor_value))
             print_file_text(main_text, 75, 77)
@@ -629,28 +681,20 @@ def main():
         else:
             print("Please select an item")
 
-    ###############################LICH FIGHT################################
+    # Beginning the fight with the final boss, The Lich
     seek_line(main_text, 87)
     print_file_text(main_text, 88, 91)
     prompt_to_proceed()
     print_file_text(main_text, 91, 94)
     prompt_to_proceed()
     print_file_text(main_text, 94, 98)
-    dot_fire = 0
-    #####these are non flammable enemies
-    enemy = "Lich"
     lich_hp = 150
-    horde_hp = 75  # i am calculating the whole horde's hp as one, but...
-    zombies = horde_hp // 15
-    # depending on how much hp the horde has, it will have a certain  amount
-    # of zombies.
-    # this determines how many attacks the horde can make.
-    # each zombie has 15 health
+    horde_hp = 75  # I am calculating the whole horde's HP in one pool
     lich_ffire = 0
-    # only have the faerie fire counter here because normal fire will not
+    # Only have the faerie fire is counter here because normal fire will not
     # do any damage over time
-    horde_ffire = 0  
-    cycle = 0  # lich will cycle between summoning zombies (0) and
+    horde_ffire = 0
+    cycle = 0  # Lich will cycle between summoning zombies (0) and
     # casting spells (1)
     while lich_hp > 0:
         print("You have {} HP and {} MP.".format(hp, mp))
@@ -658,6 +702,7 @@ def main():
         enemy = choose_target(action)
         damage_value = do_player_turn(action, enemy)
         mp -= get_spell_cost(action)
+
         if damage_value == "heal":
             health_gained = get_heal_amount()
             if (health_gained + hp) > maxhp:
@@ -668,6 +713,8 @@ def main():
                 print("You regain {} HP.".format(health_gained))
                 hp += health_gained
             damage_value = 0
+        # else: do not heal
+
         if enemy == "Lich":
             if action == "faerie fire":
                 lich_ffire += 1
@@ -676,24 +723,36 @@ def main():
             if action == "faerie fire":
                 horde_ffire += 1
             horde_hp -= damage_value
+        else:
+            print("Invalid enemy. Lich Fight ERROR.")
+
         lich_hp -= damage_over_time(0, lich_ffire, "Lich")
         horde_hp -= damage_over_time(0, horde_ffire, "Horde")
         zombies = horde_hp // 15
+        # Depending on how much HP the horde has, it will have a certain amount
+        # of zombies. This determines how many attacks the horde can make. Each
+        # zombie has 15 HP.
         print("There are {} undead left.".format(zombies))
         print("The Lich now has {} HP".format(lich_hp))
         prompt_to_proceed()
+
         if fairy_hate == 1:
             enemy_damage_value = do_enemy_turn("attack", "fairies", 0, 0)
             print("You take {} damage.".format(enemy_damage_value))
             hp -= enemy_damage_value
             prompt_to_proceed()
+        # else: fairies don't attack
+
         if lich_hp > 0:
+            # Horde attack
             enemy_damage_value = do_enemy_turn(action, "Horde", armor_value,
                                                cycle) * zombies
             if action == "block":
                 horde_hp -= get_block(enemy_damage_value, "Horde", armor_value)
             print("You take {} damage.".format(enemy_damage_value))
             hp -= enemy_damage_value
+
+            # Lich attack
             if cycle == 1:
                 enemy_damage_value = do_enemy_turn(action, "Lich",
                                                    armor_value, cycle)
@@ -709,6 +768,7 @@ def main():
                 zombies += 5
                 cycle = 1
             prompt_to_proceed()
+        # else: continue to top of loop and win the combat encounter
         if hp <= 10 and fairy_help == 1:
             do_enemy_turn("heal", "fairies", 0, 0)
             maxhp += 50
@@ -717,7 +777,7 @@ def main():
         if hp <= 0:
             game_over(enemy)
 
-    #############################VICTORY######################################
+    # The player has won, print the dramatic victory message.
     seek_line(main_text, 97)
     print_file_text(main_text, 98, 100)
     prompt_to_proceed()
